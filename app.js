@@ -72,7 +72,7 @@ passport.use(new LocalStrategy(
 ));
 
 passport.use(new GoogleStrategy({
-		returnURL: 'http://http://nameless-forest-2265.herokuapp.com/auth/google/return',
+		returnURL: 'http://nameless-forest-2265.herokuapp.com/auth/google/return',
 		realm: 'http://nameless-forest-2265.herokuapp.com/'
 	},
 	function(identifier, profile, done) {
