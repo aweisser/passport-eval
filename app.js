@@ -2,7 +2,8 @@ var flash = require('connect-flash')
   , express = require('express')
   , passport = require('passport')
   , util = require('util')
-  , LocalStrategy = require('passport-local').Strategy;
+  , LocalStrategy = require('passport-local').Strategy
+  , GoogleStrategy = require('passport-google').Strategy;
   
 
 var users = [
@@ -70,6 +71,23 @@ passport.use(new LocalStrategy(
   }
 ));
 
+passport.use(new GoogleStrategy({
+		returnURL: 'http://http://nameless-forest-2265.herokuapp.com/auth/google/return',
+		realm: 'http://nameless-forest-2265.herokuapp.com/'
+	},
+	function(identifier, profile, done) {
+		// asynchronous verification, for effect...
+		process.nextTick(function () {
+
+			// To keep the example simple, the user's Google profile is returned to
+			// represent the logged-in user.  In a typical application, you would want
+			// to associate the Google account with a user record in your database,
+			// and return that user instead.
+			profile.identifier = identifier;
+			return done(null, profile);
+		});
+	}
+));
 
 
 
@@ -142,6 +160,28 @@ app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });
+
+// GET /auth/google
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  The first step in Google authentication will involve redirecting
+//   the user to google.com.  After authenticating, Google will redirect the
+//   user back to this application at /auth/google/return
+app.get('/auth/google',
+	passport.authenticate('google', { failureRedirect: '/login' }),
+	function(req, res) {
+		res.redirect('/');
+	});
+
+// GET /auth/google/return
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get('/auth/google/return',
+	passport.authenticate('google', { failureRedirect: '/login' }),
+	function(req, res) {
+		res.redirect('/');
+	});
 
 var port = Number(process.env.PORT || 5000);
 app.listen(port, function() {
