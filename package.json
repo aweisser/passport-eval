@@ -1,6 +1,18 @@
-{
+﻿{
 	"name": "passport-eval",
 	"version": "0.0.1",
+	"main": "app.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/aweisser/passport-eval.git"
+	},
+	"keywords": [
+		"passport",
+		"example",
+		"heroku"
+	],
+	"author": "aweisser",
+	"license": "MIT",
 	"engines" : {
 		"node": "0.10.x"
 	},
