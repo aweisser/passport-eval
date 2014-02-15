@@ -95,7 +95,12 @@ passport.use(new GoogleStrategy({
 			// to associate the Google account with a user record in your database,
 			// and return that user instead.
 			profile.identifier = identifier;
-			users.push({id:identifier, profile:profile});
+			users.push({
+				id: identifier,
+				username: profile.displayName,
+				email: profile.emails[0],
+				original_profile:profile
+			});
 			return done(null, profile);
 		});
 	}
