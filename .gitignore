@@ -8,3 +8,6 @@ npm-debug.log
 # Vagrant
 .vagrant
 Vagrantfile
+
+# IntelliJ
+*.iml
