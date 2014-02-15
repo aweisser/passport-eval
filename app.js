@@ -95,6 +95,7 @@ passport.use(new GoogleStrategy({
 			// to associate the Google account with a user record in your database,
 			// and return that user instead.
 			profile.identifier = identifier;
+			users.push({id:identifier, profile:profile});
 			return done(null, profile);
 		});
 	}
@@ -124,6 +125,10 @@ app.configure(function () {
 
 app.get('/', function (req, res) {
 	res.render('index', { user: req.user });
+});
+
+app.get('/users', function (req, res) {
+	res.json(users);
 });
 
 app.get('/account', ensureAuthenticated, function (req, res) {
