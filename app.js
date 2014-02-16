@@ -40,7 +40,7 @@ function findByUsername(username, fn) {
 //   the user by ID when deserializing.
 passport.serializeUser(function (user, done) {
 	console.log("serialzeUser " + JSON.stringify(user));
-	done(null, user.id || user.identifier);
+	done(null, user.id);
 	// done(null, user);
 });
 
@@ -96,13 +96,21 @@ passport.use(new GoogleStrategy({
 			// to associate the Google account with a user record in your database,
 			// and return that user instead.
 			profile.identifier = identifier;
-			users.push({
-				id: identifier,
-				username: profile.displayName,
-				email: profile.emails[0].value,
-				original_profile:profile
-			});
-			return done(null, profile);
+			findByUsername(username, function (err, user) {
+				if (err) {
+					return done(err);
+				}
+				if (!user) {
+					user = {
+						id: identifier,
+						username: profile.displayName,
+						email: profile.emails[0].value,
+						original_profile:profile
+					};
+					users.push(user);
+				}
+				return done(null, user);
+			})
 		});
 	}
 ));
