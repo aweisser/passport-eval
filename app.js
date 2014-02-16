@@ -96,7 +96,7 @@ passport.use(new GoogleStrategy({
 			// to associate the Google account with a user record in your database,
 			// and return that user instead.
 			profile.identifier = identifier;
-			findByUsername(username, function (err, user) {
+			findById(identifier, function (err, user) {
 				if (err) {
 					return done(err);
 				}
