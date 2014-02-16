@@ -38,11 +38,13 @@ function findByUsername(username, fn) {
 //   this will be as simple as storing the user ID when serializing, and finding
 //   the user by ID when deserializing.
 passport.serializeUser(function (user, done) {
+	console.log("serialzeUser " + JSON.stringify(user));
 	done(null, user.id);
 	//done(null, user);
 });
 
 passport.deserializeUser(function (id, done) {
+	console.log("deserialzeUser " + JSON.stringify(id));
 	findById(id, function (err, user) {
 		done(err, user);
 	});
