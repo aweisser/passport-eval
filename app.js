@@ -38,17 +38,15 @@ function findByUsername(username, fn) {
 //   this will be as simple as storing the user ID when serializing, and finding
 //   the user by ID when deserializing.
 passport.serializeUser(function (user, done) {
-	// done(null, user.id);
-	done(null, user);
+	done(null, user.id);
+	//done(null, user);
 });
 
 passport.deserializeUser(function (id, done) {
-	console.log("deserialzeUser with " + id);
-	done(null, id);
-	/*findById(id, function (err, user) {
+	findById(id, function (err, user) {
 		done(err, user);
 	});
-	*/
+	//done(null, id);
 });
 
 
@@ -98,7 +96,7 @@ passport.use(new GoogleStrategy({
 			users.push({
 				id: identifier,
 				username: profile.displayName,
-				email: profile.emails[0],
+				email: profile.emails[0].value,
 				original_profile:profile
 			});
 			return done(null, profile);
